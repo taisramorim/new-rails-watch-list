@@ -1,0 +1,18 @@
+<div class="container mt-4">
+  <h1>Your Movie Lists</h1>
+
+  <div class="row">
+    <% @lists.each do |list| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="https://source.unsplash.com/random" class="card-img-top" alt="List Image">
+          <div class="card-body">
+            <h5 class="card-title"><%= list.name %></h5>
+            <%= link_to "View List", list_path(list), class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <%= link_to "Create a New List", new_list_path %>
+  </div>
+</div>

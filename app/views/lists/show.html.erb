@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <h1><%= @list.name %> List</h1>
+
+  <div class="card">
+    <!-- Use the Unsplash link as the image source -->
+    <img src="https://source.unsplash.com/random" class="card-img-top" alt="List Image">
+    <div class="card-body">
+      <h5 class="card-title"><%= @list.name %></h5>
+    </div>
+  </div>
+
+  <h2>Add a Movie to this List</h2>
+  <%= simple_form_for [@list, @bookmark] do |f| %>
+    <%= f.input :movie_id, as: :select, collection: Movie.all.map { |m| [m.title, m.id] }, label: "Select a Movie" %>
+    <%= f.input :comment, label: "Comment" %>
+    <%= f.button :submit, class: "btn btn-success" %>
+  <% end %>
+</div>
+
+  <!-- Display existing bookmarks -->
+ <div class="mt-4">
+    <h2>Bookmarks</h2>
+    <ul>
+      <% @list.bookmarks.each do |bookmark| %>
+        <li>
+          <% if bookmark.movie.present? %>
+            <%= "#{bookmark.movie.title} - #{bookmark.comment}" %>
+            <%= link_to "Delete", bookmark_path(bookmark), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %>
+          <% else %>
+            Movie not available
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+    <%= link_to "Back to Lists", lists_path %>
+  </div>
+</div>
