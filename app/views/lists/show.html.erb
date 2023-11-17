@@ -8,6 +8,38 @@
     <img src="https://source.unsplash.com/random" class="card-img-top" alt="List Image">
   </div>
 
+
+
+  <!-- Display movies with images -->
+   <div class="mt-4">
+    <h2>Movies</h2>
+    <div class="row">
+      <% @list.movies.each do |movie| %>
+        <div class="col-md-4 mb-4">
+          <div class="card rounded">
+            <%= image_tag(movie.poster_url, class: "card-img-top", alt: "#{movie.title} Poster") if movie.poster_url.present? %>
+            <div class="card-body">
+              <h5 class="card-title"><%= movie.title %></h5>
+
+              <!-- Display bookmarks for the current movie -->
+              <% if movie.bookmarks.present? %>
+                <ul class="list-group">
+                  <% movie.bookmarks.each do |bookmark| %>
+                    <li class="list-group-item">
+                      <%= "#{bookmark.comment}" %>
+                      <%= link_to "Delete", bookmark_path(bookmark), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-light btn-sm float-right" %>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <h2 class="mb-4">Add a Movie</h2>
   <%= simple_form_for [@list, @bookmark], html: { class: 'mb-4' } do |f| %>
     <div class="form-group">
@@ -20,24 +52,5 @@
     </div>
     <%= f.button :submit, class: "btn btn-primary" %>
   <% end %>
-
-  <!-- Display existing bookmarks -->
-  <div class="mt-4">
-    <h2>Bookmarks</h2>
-    <ul class="list-group">
-      <% @list.bookmarks.each do |bookmark| %>
-        <li class="list-group-item">
-          <% if bookmark.movie.present? %>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><%= "#{bookmark.movie.title} - #{bookmark.comment}" %></span>
-              <%= link_to "Delete", bookmark_path(bookmark), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %>
-            </div>
-          <% else %>
-            <%= link_to "Back to Lists", lists_path, class: 'btn btn-warning mt-3' %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-
-  </div>
+  <%= link_to "Back to Lists", lists_path, class: 'btn btn-info mt-3' %>
 </div>
