@@ -2,7 +2,7 @@ class BookmarksController < ApplicationController
   before_action :set_list, only: [:new, :create]
 
   def new
-    @bookmark = Bookmark.new
+    @bookmark = @list.bookmarks.new
   end
 
   def create
